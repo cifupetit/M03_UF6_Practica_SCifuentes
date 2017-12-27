@@ -21,7 +21,12 @@ public class EmpleadoDAOJDBCImpl implements EmpleadoDAO {
     }
 
     @Override
-    public void remove(String nombreDepartamento, Connection con) throws DAOException {
+    public void remove(int idEmpelado, Connection con) throws DAOException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Empleado search(int idEmpelado, Connection con) throws DAOException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -29,5 +34,4 @@ public class EmpleadoDAOJDBCImpl implements EmpleadoDAO {
     public ArrayList<Empleado> list(Connection con) throws DAOException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
 }

@@ -20,6 +20,29 @@ public class Empleado {
     private double sueldo;
     private int id_equipo;
 
+    public Empleado(int id_empleado, String nombre, String apellido1, String apellido2, int telefono, String direccion, String fecha_nacimiento, double sueldo, int id_equipo) {
+        this.id_empleado = id_empleado;
+        this.nombre = nombre;
+        this.apellido1 = apellido1;
+        this.apellido2 = apellido2;
+        this.telefono = telefono;
+        this.direccion = direccion;
+        this.fecha_nacimiento = fecha_nacimiento;
+        this.sueldo = sueldo;
+        this.id_equipo = id_equipo;
+    }
+
+    public Empleado(String nombre, String apellido1, String apellido2, int telefono, String direccion, String fecha_nacimiento, double sueldo, int id_equipo) {
+        this.nombre = nombre;
+        this.apellido1 = apellido1;
+        this.apellido2 = apellido2;
+        this.telefono = telefono;
+        this.direccion = direccion;
+        this.fecha_nacimiento = fecha_nacimiento;
+        this.sueldo = sueldo;
+        this.id_equipo = id_equipo;
+    }
+
     public int getId_empleado() {
         return id_empleado;
     }

@@ -17,6 +17,27 @@ public class Equipo {
     private int dia_reunion;
     private int id_director;
 
+    public Equipo(int id_equipo, String nombre, String fecha_creacion, String proyecto, int dia_reunion, int id_director) {
+        this.id_equipo = id_equipo;
+        this.nombre = nombre;
+        this.fecha_creacion = fecha_creacion;
+        this.proyecto = proyecto;
+        this.dia_reunion = dia_reunion;
+        this.id_director = id_director;
+    }
+
+    public Equipo(String nombre, int id_director) {
+        this.nombre = nombre;
+        this.id_director = id_director;
+    }
+
+    public Equipo(String nombre, String proyecto, int dia_reunion, int id_director) {
+        this.nombre = nombre;
+        this.proyecto = proyecto;
+        this.dia_reunion = dia_reunion;
+        this.id_director = id_director;
+    }
+
     public int getId_equipo() {
         return id_equipo;
     }

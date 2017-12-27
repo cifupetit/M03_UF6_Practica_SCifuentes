@@ -16,12 +16,22 @@ import model.Director;
 public class DirectorDAOJDBCImpl implements DirectorDAO {
 
     @Override
-    public void add(Director e, Connection con) throws DAOException {
+    public void add(Director d, Connection con) throws DAOException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void remove(String nombreDepartamento, Connection con) throws DAOException {
+    public void updateEquipo(int idDirector, int idEquipo, Connection con) throws DAOException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void remove(int idDirector, Connection con) throws DAOException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Director search(int idDirector, Connection con) throws DAOException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -29,5 +39,4 @@ public class DirectorDAOJDBCImpl implements DirectorDAO {
     public ArrayList<Director> list(Connection con) throws DAOException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
 }

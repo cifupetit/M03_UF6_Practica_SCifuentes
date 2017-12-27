@@ -17,7 +17,9 @@ public interface EmpleadoDAO {
     
     public void add (Empleado e, Connection con)throws DAOException;
     
-    public void remove (String nombreDepartamento, Connection con)throws DAOException;
+    public void remove (int idEmpelado, Connection con)throws DAOException;
+    
+    public Empleado search (int idEmpelado, Connection con)throws DAOException;
     
     public ArrayList<Empleado> list (Connection con)throws DAOException;
 }

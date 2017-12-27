@@ -19,6 +19,26 @@ public class Director {
     private double sueldo;
     private int id_equipo;
 
+    public Director(int id_director, String nombre, String apellido1, String apellido2, int telefono, String direccion, double sueldo, int id_equipo) {
+        this.id_director = id_director;
+        this.nombre = nombre;
+        this.apellido1 = apellido1;
+        this.apellido2 = apellido2;
+        this.telefono = telefono;
+        this.direccion = direccion;
+        this.sueldo = sueldo;
+        this.id_equipo = id_equipo;
+    }
+
+    public Director(String nombre, String apellido1, String apellido2, int telefono, String direccion, double sueldo) {
+        this.nombre = nombre;
+        this.apellido1 = apellido1;
+        this.apellido2 = apellido2;
+        this.telefono = telefono;
+        this.direccion = direccion;
+        this.sueldo = sueldo;
+    }
+
     public int getId_director() {
         return id_director;
     }
