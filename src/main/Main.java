@@ -151,10 +151,9 @@ public class Main {
     }
     
     public static Empleado datosEmpleado (BufferedReader in, Connection con) {
-        String nombre, apellido1, apellido2, direccion, fechaNacimiento;//, auxCasado = "";
-        int telefono, idDepartamento;
+        String nombre, apellido1, apellido2, direccion, fechaNacimiento;
+        int telefono, idEquipo;
         double sueldo = 0;
-        //boolean estaCasado = false;
         Empleado empleado = null;
         
         System.out.println("Introduzca los datos del nuevo empleado:\n"
@@ -191,17 +190,6 @@ public class Main {
                 fechaNacimiento = in.readLine();
             } while (!fechaValida(fechaNacimiento));
             
-            /*do {
-                System.out.println("Está casado el nuevo empleado? [s/n]");
-                auxCasado = in.readLine();
-                
-                if (auxCasado.equals("s")) {
-                    estaCasado = true;
-                } else if (auxCasado.equals("n")) {
-                    estaCasado = false;
-                }
-            } while (!auxCasado.equals("s") && !auxCasado.equals("n"));*/
-            
             do {
                 System.out.println("Sueldo del nuevo empleado:\n"
                         + "¡Mayor que 0!");
@@ -209,12 +197,12 @@ public class Main {
             } while (sueldo <= 0);
             
             do {
-                System.out.println("ID de departamento del nuevo empleado:\n"
-                        + "Introduzca un ID de departamento existente");
-                idDepartamento = Integer.parseInt(in.readLine());
-            } while (!existeDep(idDepartamento, con));
+                System.out.println("ID de equipo del nuevo empleado:\n"
+                        + "¡Introduzca un ID de equipo existente!");
+                idEquipo = Integer.parseInt(in.readLine());
+            } while (!existeEq(idEquipo, con));
             
-            empleado = new Empleado(nombre, apellido1, apellido2, telefono, direccion, fechaNacimiento, sueldo, idDepartamento);
+            empleado = new Empleado(nombre, apellido1, apellido2, telefono, direccion, fechaNacimiento, sueldo, idEquipo);
             
         } catch (NumberFormatException ex) {
             System.out.println("Introduzca un número...");
@@ -327,10 +315,10 @@ public class Main {
                     
                     case 2:
                         System.out.println("Introduzca el nombre del empleado a eliminar:");
-                        String nombre = in.readLine();
+                        int id = Integer.parseInt(in.readLine());
                         
-                        daoEm.remove(nombre, con);
-                        System.out.println("Empleado " + nombre + " eliminado con éxito");
+                        daoEm.remove(id, con);
+                        System.out.println("Empleado con id " + id + " eliminado con éxito");
                     
                     case 3:
                         ArrayList<Empleado> listaEmpleados = daoEm.list(con);
@@ -368,6 +356,8 @@ public class Main {
             System.out.println("EQUIPOS\n"
                 + "0. Añadir registros aleatorios\n"
                 + "1. Añadir equipo\n"
+                    + "2. Actualizar proyecto de equipo\n"
+                    + "3. Actualizar dia de reunion de equipo\n"
                 + "2. Eliminar equipo\n"
                 + "3. Listar equipos\n"
                 + "4. Empleados asociados a un equipo\n"
@@ -378,8 +368,8 @@ public class Main {
             
                 switch (opcion) {
                     case 0:
-                        Equipo eq = new Equipo("Investigación");
-                        Equipo eq2 = new Equipo("Desarrollo");
+                        Equipo eq = new Equipo("Investigación", 1);
+                        Equipo eq2 = new Equipo("Desarrollo", 2);
                         daoEq.add(eq, con);
                         daoEq.add(eq2, con);
                         break;
@@ -407,12 +397,12 @@ public class Main {
                         id = Integer.parseInt(in.readLine());
                         
                         daoEq.remove(id, con);
-                        System.out.println("Equipo " + nombreEq + " eliminado con éxito");
+                        System.out.println("Equipo con id " + id + " eliminado con éxito");
                     
                     case 3:
                         ArrayList<Equipo> listaEquipos = daoEq.list(con);
-                        for (Equipo eq : listaEquipos) {
-                            System.out.println(eq.toString());
+                        for (Equipo e : listaEquipos) {
+                            System.out.println(e.toString());
                         }
                         break;
                     
