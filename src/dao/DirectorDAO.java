@@ -17,11 +17,13 @@ public interface DirectorDAO {
     
     public void add (Director d, Connection con)throws DAOException;
     
-    public void updateEquipo (int idDirector, int idEquipo, Connection con)throws DAOException;
+    public void updateEquipo (int idDirector, Connection con)throws DAOException;
     
     public void remove (int idDirector, Connection con)throws DAOException;
     
     public Director search (int idDirector, Connection con)throws DAOException;
+    
+    public Director dirMayorSueldo (Connection con)throws DAOException;
     
     public ArrayList<Director> list (Connection con)throws DAOException;
 }

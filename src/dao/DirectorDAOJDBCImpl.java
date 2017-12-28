@@ -12,7 +12,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import model.Director;
-import model.Empleado;
 
 /**
  *
@@ -40,9 +39,9 @@ public class DirectorDAOJDBCImpl implements DirectorDAO {
     }
 
     @Override
-    public void updateEquipo(int idDirector, int idEquipo, Connection con) throws DAOException {
-        try (PreparedStatement stmt = con.prepareStatement("UPDATE director SET `id_equipo`= ? WHERE `id_director`= ?")) {
-            stmt.setInt(1, idEquipo);
+    public void updateEquipo(int idDirector, Connection con) throws DAOException {
+        try (PreparedStatement stmt = con.prepareStatement("UPDATE director SET `id_equipo`= (SELECT `id_equipo` FROM equipo WHERE `id_director`= ?) WHERE `id_director`= ?")) {
+            stmt.setInt(1, idDirector);
             stmt.setInt(2, idDirector);
             
             if (stmt.executeUpdate() != 1) {
@@ -82,6 +81,23 @@ public class DirectorDAOJDBCImpl implements DirectorDAO {
             return d;
         } catch (SQLException ex) {
             throw new DAOException("Error en DAO al buscar director");
+        }
+    }
+
+    @Override
+    public Director dirMayorSueldo(Connection con) throws DAOException {
+        try (Statement stmt = con.createStatement()) {
+            String query = "SELECT * FROM director WHERE `sueldo`=(SELECT MAX(sueldo) FROM director)";
+            ResultSet rs = stmt.executeQuery(query);
+            
+            if (!rs.next()) {
+                return null;
+            }
+            Director d = new Director(rs.getInt("id_director"), rs.getString("nombre"), rs.getString("apellido1"), rs.getString("apellido2"), rs.getInt("telefono"), rs.getString("direccion"), rs.getDouble("sueldo"), rs.getInt("id_equipo"));
+            rs.close();
+            return d;
+        } catch (SQLException ex) {
+            throw new DAOException("Error en DAO al mostrar el director con mayor sueldo");
         }
     }
 

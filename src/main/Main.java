@@ -254,7 +254,7 @@ public class Main {
         return existe;
     }
     
-    public static boolean fechaValida (String fecha) {
+    public static boolean fechaValida (String fecha) { //FALLA ARREGLAR DIA Y MES PUEDAN TENER 0 DELANTE Y intLength CUENTE 2
         //[AAAA-MM-DD]
         char[] auxFecha = fecha.toCharArray();
         if (fecha.length() == 10) {
@@ -290,8 +290,11 @@ public class Main {
                 + "1. Añadir empleado\n"
                 + "2. Eliminar empleado\n"
                 + "3. Listar empleados\n"
-                + "4. Empleado con sueldo más alto\n"
-                + "5. Salir");
+                + "4. Buscar empleado\n"
+                + "5. Listar empleados ordenados de menor a mayor sueldo\n"
+                + "6. Listar empleados de cierto año\n"
+                + "7. Empleado con sueldo más alto\n"
+                + "8. Salir");
         
             try {
                 opcion = Integer.parseInt(in.readLine());
@@ -328,15 +331,52 @@ public class Main {
                         break;
                     
                     case 4:
-                        daoEm.empleadoMayorSueldo(con);
+                        System.out.println("Introduzca el ID de empleado a buscar:");
+                        id = Integer.parseInt(in.readLine());
+                        
+                        empleado = daoEm.search(id, con);
+                        if (empleado != null) {
+                            System.out.println(empleado.toString());
+                        } else {
+                            System.out.println("Empleado con ID " + id + " no existe");
+                        }
+                        break;
+                        
+                    case 5:
+                        ArrayList<Empleado> empleadosPorSueldoAsc = daoEm.listarPorSueldoAsc(con);
+                        for (Empleado e : empleadosPorSueldoAsc) {
+                            System.out.println(e.toString());
+                        }
+                        break;
+                        
+                    case 6:
+                        int año;
+                        do {
+                            System.out.println("Introduzca el año del que quiere listar los empleados:");
+                            año = Integer.parseInt(in.readLine());
+                        } while (intLength(año) != 4);
+                        
+                        ArrayList<Empleado> empleadosCiertoAño = daoEm.listarPorAño(año, con);
+                        for (Empleado e : empleadosCiertoAño) {
+                            System.out.println(e.toString());
+                        }
+                        break;
+                        
+                    case 7:
+                        empleado = daoEm.empMayorSueldo(con);
+                        if (empleado != null) {
+                            System.out.println(empleado.toString());
+                        } else {
+                            System.out.println("No existe ningún empleado");
+                        }
                         break;
                     
-                    case 5:
+                    case 8:
                         salir = false;
                         return true;
                     
                     default:
-                        System.out.println("Indique una de las opciones posibles [1-4]");
+                        System.out.println("Indique una de las opciones posibles [1-8]");
                         break;
                 }
             } catch (NumberFormatException ex) {
@@ -356,12 +396,13 @@ public class Main {
             System.out.println("EQUIPOS\n"
                 + "0. Añadir registros aleatorios\n"
                 + "1. Añadir equipo\n"
-                    + "2. Actualizar proyecto de equipo\n"
-                    + "3. Actualizar dia de reunion de equipo\n"
-                + "2. Eliminar equipo\n"
-                + "3. Listar equipos\n"
-                + "4. Empleados asociados a un equipo\n"
-                + "5. Salir");
+                + "2. Actualizar proyecto de equipo\n"
+                + "3. Actualizar dia de reunion de equipo\n"
+                + "4. Buscar equipo\n"
+                + "5. Eliminar equipo\n"
+                + "6. Listar equipos\n"
+                + "7. Empleados asociados a un equipo\n"
+                + "8. Salir");
         
             try {
                 opcion = Integer.parseInt(in.readLine());
@@ -393,32 +434,86 @@ public class Main {
                         break;
                     
                     case 2:
+                        System.out.println("Introduzca el ID de equipo que quiere actualizar:");
+                        id = Integer.parseInt(in.readLine());
+                        equipo = daoEq.search(id, con);
+                        
+                        if (equipo == null) {
+                            System.out.println("Equipo con ID " + id + " no existe");
+                            break;
+                        }
+                        
+                        System.out.println("Introduzca el nombre del proyecto a asginar a este equipo:");
+                        String proyecto = in.readLine();
+                        
+                        daoEq.updateProyecto(proyecto, equipo, con);
+                        System.out.println("Proyecto del equipo con ID " + id + " actualizado con éxito");
+                        break;
+                        
+                    case 3:
+                        System.out.println("Introduzca el ID de equipo que quiere actualizar:");
+                        id = Integer.parseInt(in.readLine());
+                        equipo = daoEq.search(id, con);
+                        
+                        if (equipo == null) {
+                            System.out.println("Equipo con ID " + id + " no existe");
+                            break;
+                        }
+                        
+                        int dia;
+                        do {
+                            System.out.println("Introduzca el dia de reunion a asginar a este equipo:\n"
+                                    + "¡Número de 1 a 7, según los días de la semana!");
+                            dia = Integer.parseInt(in.readLine());
+                        } while (dia <= 0 || dia >=8);
+                        
+                        daoEq.updateDiaReunion(dia, equipo, con);
+                        System.out.println("Dia de reunion del equipo con ID " + id + " actualizado con éxito");
+                        break;
+                        
+                    case 4:
+                        System.out.println("Introduzca el ID de equipo a buscar:");
+                        id = Integer.parseInt(in.readLine());
+                        
+                        equipo = daoEq.search(id, con);
+                        if (equipo != null) {
+                            System.out.println(equipo.toString());
+                        } else {
+                            System.out.println("Equipo con ID " + id + " no existe");
+                        }
+                        
+                        break;
+                        
+                    case 5:
                         System.out.println("Introduzca el ID de equipo a eliminar:");
                         id = Integer.parseInt(in.readLine());
                         
                         daoEq.remove(id, con);
                         System.out.println("Equipo con id " + id + " eliminado con éxito");
                     
-                    case 3:
+                    case 6:
                         ArrayList<Equipo> listaEquipos = daoEq.list(con);
                         for (Equipo e : listaEquipos) {
                             System.out.println(e.toString());
                         }
                         break;
                     
-                    case 4:
-                        System.out.println("Indique el ID de departamento del que desea listar sus empleados:");
-                        int idDep = Integer.parseInt(in.readLine());
+                    case 7:
+                        System.out.println("Indique el ID de equipo del que desea listar sus empleados:");
+                        id = Integer.parseInt(in.readLine());
                         
-                        daoEq.empleadosAsociados(idDep, con);
+                        ArrayList<Empleado> listaEmpleadosAsociados = daoEq.empleadosAsociados(id, con);
+                        for (Empleado e : listaEmpleadosAsociados) {
+                            System.out.println(e.toString());
+                        }
                         break;
                     
-                    case 5:
+                    case 8:
                         salir = false;
                         return true;
                     
                     default:
-                        System.out.println("Indique una de las opciones posibles [1-4]");
+                        System.out.println("Indique una de las opciones posibles [1-8]");
                         break;
                 }
             } catch (NumberFormatException ex) {
@@ -437,11 +532,12 @@ public class Main {
             System.out.println("DIRECTORES\n"
                 + "0. Añadir registros aleatorios\n"
                 + "1. Añadir director\n"
-                + "2. Asignar equipo\n"
-                + "3. Eliminar director\n"
-                + "4. Listar directores\n"
-                + "5. Empleados asociados a un departamento\n"
-                + "6. Salir");
+                + "2. Actualizar equipo de director\n"
+                + "3. Buscar director\n"
+                + "4. Eliminar director\n"
+                + "5. Listar directores\n"
+                + "6. Mostrar director con el sueldo más alto\n"
+                + "7. Salir");
         
             try {
                 opcion = Integer.parseInt(in.readLine());
@@ -463,44 +559,59 @@ public class Main {
                         
                         break;
                         
-                    case 2:
-                        System.out.println("Introduzca el ID de director a actualizar:");
-                        id = Integer.parseInt(in.readLine());
-                        int idEquipo;
-                        
+                    case 2:                        
                         do {
-                            System.out.println("¡Introduzca un ID de equipo existente!\n"
-                            + "Nuevo ID de equipo:");
-                            idEquipo = Integer.parseInt(in.readLine());
-                        } while (!existeEq(idEquipo, con));
+                            System.out.println("¡Introduzca un ID de director existente!\n"
+                            + "ID de director a actualizar el equipo:");
+                            id = Integer.parseInt(in.readLine());
+                        } while (!existeDir(id, con));
                         
-                        daoD.updateEquipo(id, idEquipo, con);
+                        daoD.updateEquipo(id, con);
+                        System.out.println("Equipo de director con ID " + id + " actualizado con éxito");
+                        
+                        break;
+                        
+                    case 3:
+                        System.out.println("Introduzca el ID de director a buscar:");
+                        id = Integer.parseInt(in.readLine());
+                        
+                        director = daoD.search(id, con);
+                        if (director != null) {
+                            System.out.println(director.toString());
+                        } else {
+                            System.out.println("Director con ID " + id + " no existe");
+                        }
                         break;
                     
-                    case 3:
+                    case 4:
                         System.out.println("Introduzca el ID del director a eliminar:");
                         id = Integer.parseInt(in.readLine());
                         
                         daoD.remove(id, con);
                         System.out.println("Director con ID " + id + " eliminado con éxito");
                     
-                    case 4:
+                    case 5:
                         ArrayList<Director> listaDirectores = daoD.list(con);
                         for (Director di : listaDirectores) {
                             System.out.println(di.toString());
                         }
                         break;
                     
-                    case 5:
-                        daoD.empleadoMayorSueldo(con);
+                    case 6:
+                        director = daoD.dirMayorSueldo(con);
+                        if (director != null) {
+                            System.out.println(director.toString());
+                        } else {
+                            System.out.println("Director con ID " + director.getId_director() + " no existe");
+                        }
                         break;
                     
-                    case 6:
+                    case 7:
                         salir = false;
                         return true;
                     
                     default:
-                        System.out.println("Indique una de las opciones posibles [1-4]");
+                        System.out.println("Indique una de las opciones posibles [1-7]");
                         break;
                 }
             } catch (NumberFormatException ex) {

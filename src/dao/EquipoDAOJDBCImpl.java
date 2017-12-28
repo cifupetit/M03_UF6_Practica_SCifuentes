@@ -11,7 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import model.Director;
+import model.Empleado;
 import model.Equipo;
 
 /**
@@ -80,6 +80,53 @@ public class EquipoDAOJDBCImpl implements EquipoDAO {
             return equipos;
         } catch (SQLException ex) {
             throw new DAOException("Error en DAO al mostrar todos los equipos");
+        }
+    }
+
+    @Override
+    public void updateProyecto(String proyecto, Equipo e, Connection con) throws DAOException {
+        try (PreparedStatement stmt = con.prepareStatement("UPDATE equipo SET `proyecto`= ? WHERE `id_equipo`= ?")) {
+            stmt.setString(1, proyecto);
+            stmt.setInt(2, e.getId_equipo());
+            
+            if (stmt.executeUpdate() != 1) {
+                throw new DAOException("Error al actualizar el proyecto de equipo");
+            }
+            
+        } catch (SQLException ex) {
+            throw new DAOException("Error en DAO al actualizar el proyecto de equipo");
+        }
+    }
+
+    @Override
+    public void updateDiaReunion(int diaReunion, Equipo e, Connection con) throws DAOException {
+        try (PreparedStatement stmt = con.prepareStatement("UPDATE equipo SET `dia_reunion`= ? WHERE `id_equipo`= ?")) {
+            stmt.setInt(1, diaReunion);
+            stmt.setInt(2, e.getId_equipo());
+            
+            if (stmt.executeUpdate() != 1) {
+                throw new DAOException("Error al actualizar el dia de reunion de equipo");
+            }
+            
+        } catch (SQLException ex) {
+            throw new DAOException("Error en DAO al actualizar el dia de reunion de equipo");
+        }
+    }
+
+    @Override
+    public ArrayList<Empleado> empleadosAsociados(int idEquipo, Connection con) throws DAOException {
+        try (Statement stmt = con.createStatement()) {
+            String query = "SELECT * FROM equipo AS eq, empleado AS em WHERE `eq.id_equipo`=" + idEquipo + " AND `em.id_equipo`=`eq.id_equipo`";
+            ResultSet rs = stmt.executeQuery(query);
+            ArrayList<Empleado> empleadosAsociados = new ArrayList<>();
+            
+            while (rs.next()) {
+                empleadosAsociados.add(new Empleado(rs.getInt("id_empleado"), rs.getString("nombre"), rs.getString("apellido1"), rs.getString("apellido2"), rs.getInt("telefono"), rs.getString("direccion"), rs.getString("fecha_nacimiento"), rs.getDouble("sueldo"), rs.getInt("id_equipo")));
+            }
+            rs.close();
+            return empleadosAsociados;
+        } catch (SQLException ex) {
+            throw new DAOException("Error en DAO al mostrar los empleados asociados al equipo");
         }
     }
 
