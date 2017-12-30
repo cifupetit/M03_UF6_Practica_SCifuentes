@@ -102,6 +102,23 @@ public class DirectorDAOJDBCImpl implements DirectorDAO {
     }
 
     @Override
+    public ArrayList<Director> directoresSinEquipo(Connection con) throws DAOException {
+        try (Statement stmt = con.createStatement()) {
+            String query = "SELECT * FROM director WHERE `id_equipo` IS NULL";
+            ResultSet rs = stmt.executeQuery(query);
+            ArrayList<Director> directores = new ArrayList<>();
+            
+            while (rs.next()) {
+                directores.add(new Director(rs.getInt("id_director"), rs.getString("nombre"), rs.getString("apellido1"), rs.getString("apellido2"), rs.getInt("telefono"), rs.getString("direccion"), rs.getDouble("sueldo"), rs.getInt("id_equipo")));
+            }
+            rs.close();
+            return directores;
+        } catch (SQLException ex) {
+            throw new DAOException("Error en DAO al mostrar todos los directores sin equipo");
+        }
+    }
+    
+    @Override
     public ArrayList<Director> list(Connection con) throws DAOException {
         try (Statement stmt = con.createStatement()) {
             String query = "SELECT * FROM director";

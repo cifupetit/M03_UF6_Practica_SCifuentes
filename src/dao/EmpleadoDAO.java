@@ -22,4 +22,11 @@ public interface EmpleadoDAO {
     public Empleado search (int idEmpleado, Connection con)throws DAOException;
     
     public ArrayList<Empleado> list (Connection con)throws DAOException;
+    
+    public ArrayList<Empleado> listarPorSueldoAsc (Connection con)throws DAOException;
+    
+    public ArrayList<Empleado> listarPorAño (int año, Connection con)throws DAOException;
+            
+    public Empleado empMayorSueldo (Connection con)throws DAOException;
+    
 }

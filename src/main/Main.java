@@ -260,7 +260,7 @@ public class Main {
         if (fecha.length() == 10) {
             if (auxFecha[4] == '-' && auxFecha[7] == '-') {
                 String[] datos = fecha.split("-");
-                if (intLength(Integer.parseInt(datos[0])) == 4 && intLength(Integer.parseInt(datos[1])) == 2 && intLength(Integer.parseInt(datos[2])) == 2) {
+                if (intLength(Integer.parseInt(datos[0])) == 4 && (Integer.parseInt(datos[1]) >= 00 && Integer.parseInt(datos[1]) <= 12) && (Integer.parseInt(datos[2]) >= 00 && Integer.parseInt(datos[2]) <= 12)) {
                     return true;
                 }
             }
@@ -536,8 +536,9 @@ public class Main {
                 + "3. Buscar director\n"
                 + "4. Eliminar director\n"
                 + "5. Listar directores\n"
-                + "6. Mostrar director con el sueldo más alto\n"
-                + "7. Salir");
+                + "6. Listar directores sin equipo asociado o sin el equipo actualizado\n"
+                + "7. Mostrar director con el sueldo más alto\n"
+                + "8. Salir");
         
             try {
                 opcion = Integer.parseInt(in.readLine());
@@ -598,6 +599,13 @@ public class Main {
                         break;
                     
                     case 6:
+                        ArrayList<Director> directoresSinEquipo = daoD.directoresSinEquipo(con);
+                        for (Director di : directoresSinEquipo) {
+                            System.out.println(di.toString());
+                        }
+                        break;
+                        
+                    case 7:
                         director = daoD.dirMayorSueldo(con);
                         if (director != null) {
                             System.out.println(director.toString());
@@ -606,12 +614,12 @@ public class Main {
                         }
                         break;
                     
-                    case 7:
+                    case 8:
                         salir = false;
                         return true;
                     
                     default:
-                        System.out.println("Indique una de las opciones posibles [1-7]");
+                        System.out.println("Indique una de las opciones posibles [1-8]");
                         break;
                 }
             } catch (NumberFormatException ex) {

@@ -24,6 +24,8 @@ public interface DirectorDAO {
     public Director search (int idDirector, Connection con)throws DAOException;
     
     public Director dirMayorSueldo (Connection con)throws DAOException;
+
+    public ArrayList<Director> directoresSinEquipo (Connection con)throws DAOException;
     
     public ArrayList<Director> list (Connection con)throws DAOException;
 }

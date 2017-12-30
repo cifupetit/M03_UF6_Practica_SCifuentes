@@ -87,4 +87,55 @@ public class EmpleadoDAOJDBCImpl implements EmpleadoDAO {
             throw new DAOException("Error en DAO al mostrar todos los empleados");
         }
     }
+
+    @Override
+    public ArrayList<Empleado> listarPorSueldoAsc(Connection con) throws DAOException {
+        try (Statement stmt = con.createStatement()) {
+            String query = "SELECT * FROM empleado ORDER BY `sueldo`";
+            ResultSet rs = stmt.executeQuery(query);
+            ArrayList<Empleado> empleados = new ArrayList<>();
+            
+            while (rs.next()) {
+                empleados.add(new Empleado(rs.getInt("id_empleado"), rs.getString("nombre"), rs.getString("apellido1"), rs.getString("apellido2"), rs.getInt("telefono"), rs.getString("direccion"), rs.getString("fecha_nacimiento"), rs.getDouble("sueldo"), rs.getInt("id_equipo")));
+            }
+            rs.close();
+            return empleados;
+        } catch (SQLException ex) {
+            throw new DAOException("Error en DAO al mostrar todos los empleados ordenados por sueldo");
+        }
+    }
+
+    @Override
+    public ArrayList<Empleado> listarPorAño(int año, Connection con) throws DAOException {
+        try (PreparedStatement stmt = con.prepareStatement("SELECT * FROM empleado WHERE YEAR(`fecha_nacimiento`)=?")) {
+            stmt.setInt(1, año);
+            ResultSet rs = stmt.executeQuery();
+            ArrayList<Empleado> empleados = new ArrayList<>();
+            
+            while (rs.next()) {
+                empleados.add(new Empleado(rs.getInt("id_empleado"), rs.getString("nombre"), rs.getString("apellido1"), rs.getString("apellido2"), rs.getInt("telefono"), rs.getString("direccion"), rs.getString("fecha_nacimiento"), rs.getDouble("sueldo"), rs.getInt("id_equipo")));
+            }
+            rs.close();
+            return empleados;
+        } catch (SQLException ex) {
+            throw new DAOException("Error en DAO al mostrar los empleados de cierto año");
+        }
+    }
+
+    @Override
+    public Empleado empMayorSueldo(Connection con) throws DAOException {
+        try (Statement stmt = con.createStatement()) {
+            String query = "SELECT * FROM empleado WHERE `sueldo`=(SELECT MAX(sueldo) FROM empleado)";
+            ResultSet rs = stmt.executeQuery(query);
+            
+            if (!rs.next()) {
+                return null;
+            }
+            Empleado e = new Empleado(rs.getInt("id_empleado"), rs.getString("nombre"), rs.getString("apellido1"), rs.getString("apellido2"), rs.getInt("telefono"), rs.getString("direccion"), rs.getString("fecha_nacimiento"), rs.getDouble("sueldo"), rs.getInt("id_equipo"));
+            rs.close();
+            return e;
+        } catch (SQLException ex) {
+            throw new DAOException("Error en DAO al mostrar el empleado con mayor sueldo");
+        }
+    }
 }
