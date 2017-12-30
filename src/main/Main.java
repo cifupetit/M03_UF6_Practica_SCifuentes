@@ -254,7 +254,28 @@ public class Main {
         return existe;
     }
     
-    public static boolean fechaValida (String fecha) { //FALLA ARREGLAR DIA Y MES PUEDAN TENER 0 DELANTE Y intLength CUENTE 2
+    public static boolean existeDirSinEquipo (int idDir, Connection con) {
+        ResultSet rs = null;
+        boolean existe = false;
+        
+        try (Statement stmt = con.createStatement()) {
+            String query = "SELECT * FROM director WHERE id_director = " + idDir + " AND id_equipo IS NULL";
+            rs = stmt.executeQuery(query);
+            existe = rs.first();
+        
+        } catch (SQLException ex) {
+            System.out.println("Error al comprobar director");
+        } finally {
+            try {
+                rs.close();
+            } catch (SQLException ex) {
+                System.out.println("Error al cerrar ResultSet en existeDir");
+            }
+        }
+        return existe;
+    }
+    
+    public static boolean fechaValida (String fecha) {
         //[AAAA-MM-DD]
         char[] auxFecha = fecha.toCharArray();
         if (fecha.length() == 10) {
@@ -421,10 +442,10 @@ public class Main {
                         int idDirector;
                         
                         do {
-                            System.out.println("¡Introduzca un ID de director existente!\n"
+                            System.out.println("¡Introduzca un ID de director existente sin equipo asignado!\n"
                             + "ID de director:");
                             idDirector = Integer.parseInt(in.readLine());
-                        } while (!existeDir(idDirector, con));
+                        } while (!existeDirSinEquipo(idDirector, con));
                         
                         equipo = new Equipo(nombreEq, idDirector);
                         
