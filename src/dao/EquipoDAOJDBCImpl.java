@@ -22,8 +22,21 @@ public class EquipoDAOJDBCImpl implements EquipoDAO {
 
     @Override
     public void add(Equipo e, Connection con) throws DAOException {
-        /*PreparedStatement stmtEq = null;
-        PreparedStatement stmtDir = null;
+        try (PreparedStatement stmt = con.prepareStatement("INSERT INTO equipo(`nombre`,`fecha_creacion`,`id_director`) VALUES (?,NOW(),?)")) {
+            stmt.setString(1, e.getNombre());
+            stmt.setInt(2, e.getId_director());
+            
+            if (stmt.executeUpdate() != 1) {
+                throw new DAOException("Error al añadir equipo");
+            }
+            
+        } catch (SQLException ex) {
+            throw new DAOException("Error en DAO al añadir equipo");
+        }
+        
+        /*PreparedStatement stmtEq = null;  //LA TRANSACCION ESTÁ HECHA, TRABAJADA, Y COMPROBADA EN SQL POR SEPARADO, ASÍ QUE YA LA DEJO, PERO NO ES POSIBLE YA QUE:
+        PreparedStatement stmtDir = null;   //no puedo coger el ID de equipo, ya que la BBDD aún no ha generado el id del equipo creado
+        
         try {
             con.setAutoCommit(false);
             
@@ -31,10 +44,6 @@ public class EquipoDAOJDBCImpl implements EquipoDAO {
             stmtEq.setString(1, e.getNombre());
             stmtEq.setInt(2, e.getId_director());
             stmtEq.executeUpdate();
-            stmtEq.close();
-            
-            //LA TRANSACCION ESTÁ HECHA Y TRABAJADA, ASÍ QUE YA LA DEJO , PERO NO ES POSIBLE YA QUE:
-            //no puedo coger el ID de equipo, ya que la BBDD aún no ha generado el id del equipo creado
             
             stmtDir = con.prepareStatement("UPDATE director SET `id_equipo`= ?");
             stmtDir.setInt(1, e.getId_director());
