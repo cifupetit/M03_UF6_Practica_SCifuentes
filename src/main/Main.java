@@ -132,6 +132,10 @@ public class Main {
                     case 4:
                         salir = true;
                         break;
+                        
+                    default:
+                        System.out.println("Introduzca una opción de 1 a 4");
+                        break;
                 }
                 
             } catch (NumberFormatException ex) {
@@ -312,7 +316,7 @@ public class Main {
                 + "2. Eliminar empleado\n"
                 + "3. Listar empleados\n"
                 + "4. Buscar empleado\n"
-                + "5. Listar empleados ordenados de menor a mayor sueldo\n"
+                + "5. Listar empleados de menor a mayor sueldo\n"
                 + "6. Listar empleados de cierto año\n"
                 + "7. Empleado con sueldo más alto\n"
                 + "8. Salir");
@@ -338,7 +342,7 @@ public class Main {
                         break;
                     
                     case 2:
-                        System.out.println("Introduzca el nombre del empleado a eliminar:");
+                        System.out.println("Introduzca el ID del empleado a eliminar:");
                         int id = Integer.parseInt(in.readLine());
                         
                         daoEm.remove(id, con);
@@ -418,7 +422,7 @@ public class Main {
                 + "0. Añadir registros aleatorios\n"
                 + "1. Añadir equipo\n"
                 + "2. Actualizar proyecto de equipo\n"
-                + "3. Actualizar dia de reunion de equipo\n"
+                + "3. Actualizar día de reunión de equipo\n"
                 + "4. Buscar equipo\n"
                 + "5. Eliminar equipo\n"
                 + "6. Listar equipos\n"
@@ -557,7 +561,7 @@ public class Main {
                 + "3. Buscar director\n"
                 + "4. Eliminar director\n"
                 + "5. Listar directores\n"
-                + "6. Listar directores sin equipo asociado o sin el equipo actualizado\n"
+                + "6. Listar directores sin equipo asociado o actualizado\n"
                 + "7. Mostrar director con el sueldo más alto\n"
                 + "8. Salir");
         

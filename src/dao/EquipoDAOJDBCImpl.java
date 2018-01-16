@@ -22,17 +22,51 @@ public class EquipoDAOJDBCImpl implements EquipoDAO {
 
     @Override
     public void add(Equipo e, Connection con) throws DAOException {
-        try (PreparedStatement stmt = con.prepareStatement("INSERT INTO equipo(`nombre`,`fecha_creacion`,`id_director`) VALUES (?,NOW(),?)")) {
-            stmt.setString(1, e.getNombre());
-            stmt.setInt(2, e.getId_director());
+        /*PreparedStatement stmtEq = null;
+        PreparedStatement stmtDir = null;
+        try {
+            con.setAutoCommit(false);
             
-            if (stmt.executeUpdate() != 1) {
-                throw new DAOException("Error al añadir equipo");
-            }
+            stmtEq = con.prepareStatement("INSERT INTO equipo(`nombre`,`fecha_creacion`,`id_director`) VALUES (?,NOW(),?)");
+            stmtEq.setString(1, e.getNombre());
+            stmtEq.setInt(2, e.getId_director());
+            stmtEq.executeUpdate();
+            stmtEq.close();
+            
+            //LA TRANSACCION ESTÁ HECHA Y TRABAJADA, ASÍ QUE YA LA DEJO , PERO NO ES POSIBLE YA QUE:
+            //no puedo coger el ID de equipo, ya que la BBDD aún no ha generado el id del equipo creado
+            
+            stmtDir = con.prepareStatement("UPDATE director SET `id_equipo`= ?");
+            stmtDir.setInt(1, e.getId_director());
+            stmtDir.executeUpdate();
+            
+            con.commit();
             
         } catch (SQLException ex) {
+            try {
+                System.out.println("Error al añadir equipo y actualizar el ID de equipo (del director asignado al equipo)");
+                con.rollback();
+                System.out.println("Transacción deshecha");
+            } catch (SQLException excep) {
+                System.out.println("Error en rollback de add de Equipo");
+                System.out.println("Error " + excep.getClass().getName());
+                System.out.println("Mensaje: " + excep.getMessage());
+            }
             throw new DAOException("Error en DAO al añadir equipo");
-        }
+            
+        } finally {
+            try {
+                if (stmtEq != null) {
+                    stmtEq.close();
+                } else if (stmtDir != null) {
+                    stmtDir.close();
+                }
+                con.setAutoCommit(true);
+            } catch (SQLException except) {
+                System.out.println("Error " + except.getClass().getName());
+                System.out.println("Mensaje: " + except.getMessage());
+            }
+        }*/
     }
 
     @Override
