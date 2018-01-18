@@ -159,7 +159,7 @@ public class EquipoDAOJDBCImpl implements EquipoDAO {
     @Override
     public ArrayList<Empleado> empleadosAsociados(int idEquipo, Connection con) throws DAOException {
         try (Statement stmt = con.createStatement()) {
-            String query = "SELECT * FROM equipo AS eq, empleado AS em WHERE `eq.id_equipo`=" + idEquipo + " AND `em.id_equipo`=`eq.id_equipo`";
+            String query = "SELECT * FROM equipo, empleado WHERE equipo.id_equipo=" + idEquipo + " AND empleado.id_equipo=equipo.id_equipo";
             ResultSet rs = stmt.executeQuery(query);
             ArrayList<Empleado> empleadosAsociados = new ArrayList<>();
             
