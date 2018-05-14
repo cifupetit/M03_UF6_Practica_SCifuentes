@@ -68,9 +68,9 @@ public class DirectorDAOJDBCImpl implements DirectorDAO {
     }
 
     @Override
-    public Director search(int idDirector, Connection con) throws DAOException {
-        try (PreparedStatement stmt = con.prepareStatement("SELECT * FROM director WHERE `id_director`= ?")) {
-            stmt.setInt(1, idDirector);
+    public Director search(String nombreDirector, Connection con) throws DAOException {
+        try (PreparedStatement stmt = con.prepareStatement("SELECT * FROM director WHERE `nombre`= ?")) {
+            stmt.setString(1, nombreDirector);
             ResultSet rs = stmt.executeQuery();
                         
             if (!rs.next()) {

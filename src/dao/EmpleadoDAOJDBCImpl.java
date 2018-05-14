@@ -55,9 +55,9 @@ public class EmpleadoDAOJDBCImpl implements EmpleadoDAO {
     }
 
     @Override
-    public Empleado search(int idEmpleado, Connection con) throws DAOException {
-        try (PreparedStatement stmt = con.prepareStatement("SELECT * FROM empleado WHERE `id_empleado`= ?")) {
-            stmt.setInt(1, idEmpleado);
+    public Empleado search(String nombreEmpleado, Connection con) throws DAOException {
+        try (PreparedStatement stmt = con.prepareStatement("SELECT * FROM empleado WHERE `nombre`= ?")) {
+            stmt.setString(1, nombreEmpleado);
             ResultSet rs = stmt.executeQuery();
                         
             if (!rs.next()) {

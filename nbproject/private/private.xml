@@ -3,21 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/cifu/Documents/NetBeansProjects/M03_UF6_Practica_SCifuentes/src/dao/EquipoDAO.java</file>
             <file>file:/C:/Users/cifu/Documents/NetBeansProjects/M03_UF6_Practica_SCifuentes/src/dao/EquipoDAOJDBCImpl.java</file>
-            <file>file:/C:/Users/cifu/Documents/NetBeansProjects/M03_UF6_Practica_SCifuentes/src/dao/EmpleadoDAO.java</file>
-            <file>file:/C:/Users/cifu/Documents/NetBeansProjects/M03_UF6_Practica_SCifuentes/src/utilities/ConnectDB.java</file>
-            <file>file:/C:/Users/cifu/Documents/NetBeansProjects/M03_UF6_Practica_SCifuentes/src/dao/DirectorDAO.java</file>
-            <file>file:/C:/Users/cifu/Documents/NetBeansProjects/M03_UF6_Practica_SCifuentes/src/model/Director.java</file>
-            <file>file:/C:/Users/cifu/Documents/NetBeansProjects/M03_UF6_Practica_SCifuentes/src/model/Equipo.java</file>
             <file>file:/C:/Users/cifu/Documents/NetBeansProjects/M03_UF6_Practica_SCifuentes/src/dao/DirectorDAOJDBCImpl.java</file>
             <file>file:/C:/Users/cifu/Documents/NetBeansProjects/M03_UF6_Practica_SCifuentes/src/dao/DirectorDAOFactory.java</file>
+            <file>file:/C:/Users/cifu/Documents/NetBeansProjects/M03_UF6_Practica_SCifuentes/src/dao/EmpleadoDAO.java</file>
             <file>file:/C:/Users/cifu/Documents/NetBeansProjects/M03_UF6_Practica_SCifuentes/src/dao/EmpleadoDAOJDBCImpl.java</file>
-            <file>file:/C:/Users/cifu/Documents/NetBeansProjects/M03_UF6_Practica_SCifuentes/src/dao/EmpleadoDAOFactory.java</file>
-            <file>file:/C:/Users/cifu/Documents/NetBeansProjects/M03_UF6_Practica_SCifuentes/src/dao/DAOException.java</file>
             <file>file:/C:/Users/cifu/Documents/NetBeansProjects/M03_UF6_Practica_SCifuentes/src/main/Main.java</file>
-            <file>file:/C:/Users/cifu/Documents/NetBeansProjects/M03_UF6_Practica_SCifuentes/src/utilities/practica_java_uf6Connection.java</file>
-            <file>file:/C:/Users/cifu/Documents/NetBeansProjects/M03_UF6_Practica_SCifuentes/src/model/Empleado.java</file>
+            <file>file:/C:/Users/cifu/Documents/NetBeansProjects/M03_UF6_Practica_SCifuentes/src/dao/DirectorDAO.java</file>
         </group>
     </open-files>
 </project-private>

@@ -83,10 +83,13 @@ public class Main {
                         timeToQuit = false;
                         EquipoDAOFactory factoryEq = new EquipoDAOFactory();
                         EquipoDAO daoEq = factoryEq.createEquipoDAO();
+                        
+                        DirectorDAOFactory factoryAuxD = new DirectorDAOFactory();
+                        DirectorDAO daoAuxD = factoryAuxD.createDirectorDAO();
                     
                         try (Connection con = ConnectDB.getInstance();) {
                             do {
-                                timeToQuit = executeMenuEquipo(con, in, daoEq);
+                                timeToQuit = executeMenuEquipo(con, in, daoEq, daoAuxD);
                             } while (!timeToQuit);
                             
                         } catch (IOException ex) {
@@ -307,6 +310,7 @@ public class Main {
     public static boolean executeMenuEmpleado (Connection con, BufferedReader in, EmpleadoDAO daoEm) throws IOException, Exception{
         boolean salir = true;
         int opcion;
+        String nombreEmp;
         Empleado empleado;
         
         while (salir) {
@@ -356,14 +360,14 @@ public class Main {
                         break;
                     
                     case 4:
-                        System.out.println("Introduzca el ID de empleado a buscar:");
-                        id = Integer.parseInt(in.readLine());
+                        System.out.println("Introduzca el nombre de empleado a buscar:");
+                        nombreEmp = in.readLine();
                         
-                        empleado = daoEm.search(id, con);
+                        empleado = daoEm.search(nombreEmp, con);
                         if (empleado != null) {
                             System.out.println(empleado.toString());
                         } else {
-                            System.out.println("Empleado con ID " + id + " no existe");
+                            System.out.println("Empleado con nombre " + nombreEmp + " no existe");
                         }
                         break;
                         
@@ -411,7 +415,7 @@ public class Main {
         return false;
     }
     
-    public static boolean executeMenuEquipo (Connection con, BufferedReader in, EquipoDAO daoEq) throws IOException, Exception{
+    public static boolean executeMenuEquipo (Connection con, BufferedReader in, EquipoDAO daoEq, DirectorDAO daoDir) throws IOException, Exception{
         boolean salir = true;
         int opcion, id;
         Equipo equipo;
@@ -456,9 +460,17 @@ public class Main {
                         daoEq.add(equipo, con);
                         System.out.println("Equipo " + equipo.getNombre() + " añadido con éxito");
                         
+                        daoDir.updateEquipo(idDirector, con);
+                        
                         break;
                     
                     case 2:
+                        ArrayList<Equipo> listaAuxEq = daoEq.list(con);
+                        for (Equipo auxE : listaAuxEq) {
+                            System.out.println(auxE.toString());
+                        }
+                        System.out.println();
+                        
                         System.out.println("Introduzca el ID de equipo que quiere actualizar:");
                         id = Integer.parseInt(in.readLine());
                         equipo = daoEq.search(id, con);
@@ -551,6 +563,7 @@ public class Main {
     public static boolean executeMenuDirector (Connection con, BufferedReader in, DirectorDAO daoD) throws IOException, Exception{
         boolean salir = true;
         int opcion, id;
+        String nombre;
         Director director;
         
         while (salir) {
@@ -598,18 +611,23 @@ public class Main {
                         break;
                         
                     case 3:
-                        System.out.println("Introduzca el ID de director a buscar:");
-                        id = Integer.parseInt(in.readLine());
+                        System.out.println("Introduzca el nombre de director a buscar:");
+                        nombre = in.readLine();
                         
-                        director = daoD.search(id, con);
+                        director = daoD.search(nombre, con);
                         if (director != null) {
                             System.out.println(director.toString());
                         } else {
-                            System.out.println("Director con ID " + id + " no existe");
+                            System.out.println("Director con nombre " + nombre + " no existe");
                         }
                         break;
                     
                     case 4:
+                        ArrayList<Director> listaD = daoD.list(con);
+                        for (Director dir : listaD) {
+                            System.out.println(dir.toString());
+                        }
+                        System.out.println();
                         System.out.println("Introduzca el ID del director a eliminar:");
                         id = Integer.parseInt(in.readLine());
                         

@@ -21,7 +21,7 @@ public interface DirectorDAO {
     
     public void remove (int idDirector, Connection con)throws DAOException;
     
-    public Director search (int idDirector, Connection con)throws DAOException;
+    public Director search (String nombreDirector, Connection con)throws DAOException;
     
     public Director dirMayorSueldo (Connection con)throws DAOException;
 
